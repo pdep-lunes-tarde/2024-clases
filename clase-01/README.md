@@ -7,6 +7,9 @@
 
 ## Para la clase que viene
 - Preparar el ambiente como dice en el TP-0:
+https://classroom.github.com/a/VvYaKbOY
+- Hacer el TP-1:
+https://classroom.github.com/a/lTdVQ4aI
 
 - Unirse al servidor de discord:
 https://discord.gg/UsTCxTX9
