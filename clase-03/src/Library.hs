@@ -14,10 +14,11 @@ import PdePreludat
 -- Queremos tener una función que nos diga si una carta puede jugarse después de otra.
 -- Por ahora, vamos a arrancar implementando solo las cartas con números.
 
-data Carta = UnaCarta Number Color deriving (Eq)
+data Carta = CartaNumerica Number Color | Mas4 Color
+    deriving (Eq)
 
 instance Show Carta where
-    show (UnaCarta unNumero unColor) =
+    show (CartaNumerica unNumero unColor) =
         show unNumero ++ "--" ++ show unColor
 
 -- type Carta = (Number, String)
@@ -27,22 +28,28 @@ instance Show Carta where
 data Color = Rojo | Azul | Amarillo | Verde deriving (Show, Eq)
 
 carta :: Number -> Color -> Carta
-carta numero color = UnaCarta numero color
+carta numero color = CartaNumerica numero color
 
 color :: Carta -> Color
-color (UnaCarta unNumero unColor) = unColor
+color (CartaNumerica unNumero unColor) = unColor
+color (Mas4 unColor) = unColor
 
 tienenMismoColor :: Carta -> Carta -> Bool
 tienenMismoColor unaCarta otraCarta = color unaCarta == color otraCarta
 
 numero :: Carta -> Number
-numero (UnaCarta unNumero unColor) = unNumero
+numero (CartaNumerica unNumero unColor) = unNumero
 
 tienenMismoNumero :: Carta -> Carta -> Bool
+tienenMismoNumero _ (Mas4 _) = False
+tienenMismoNumero (Mas4 _) _ = False
 tienenMismoNumero unaCarta otraCarta = numero unaCarta == numero otraCarta
 
 sePuedeJugar :: Carta -> Carta -> Bool
-sePuedeJugar unaCarta otraCarta = tienenMismoColor unaCarta otraCarta || tienenMismoNumero unaCarta otraCarta
+sePuedeJugar _ (Mas4 _) = True
+sePuedeJugar (Mas4 unColor) carta = tienenMismoColor (Mas4 unColor) carta
+sePuedeJugar ultimaCarta cartaJugada =
+    tienenMismoColor ultimaCarta cartaJugada || tienenMismoNumero ultimaCarta cartaJugada
 
 ---------------------
 ------ Parte 1 ------
