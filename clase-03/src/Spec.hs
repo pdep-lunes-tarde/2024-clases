@@ -3,16 +3,16 @@ import PdePreludat
 import Library
 import Test.Hspec
 
-ochoAzul = implementame
-ochoRojo = implementame
-sieteAzul = implementame
-sieteVerde = implementame
+ochoAzul = (8, "Azul")
+ochoRojo = (8, "Rojo")
+sieteAzul = (7, "Azul")
+sieteVerde = (7, "Verde")
 
 
 correrTests :: IO ()
 correrTests = hspec $ do
   describe "Tests de clase 3" $ do
-    focus $ describe "Cartas con numero y color" $ do
+    describe "Cartas con numero y color" $ do
       it "una carta se puede jugar despues de otra si coinciden sus numeros" $ do
         sePuedeJugar ochoAzul ochoRojo `shouldBe` True
       it "una carta no se puede jugar despues de otra si no coinciden sus numeros ni sus colores" $ do

@@ -1,5 +1,7 @@
 module Library where
 import PdePreludat
+import Data.List (isPrefixOf)
+import GHC.OldList (isSuffixOf)
 
 ---------------------
 ------ Parte 0 ------
@@ -9,7 +11,26 @@ import PdePreludat
 -- Queremos tener una función que nos diga si una carta puede jugarse después de otra.
 -- Por ahora, vamos a arrancar implementando solo las cartas con números.
 
-sePuedeJugar = implementame
+type Carta = (Number, String)
+
+carta :: Number -> String -> Carta
+carta numero color = (numero, color)
+
+color :: Carta -> String
+color (unNumero, unColor) = unColor
+
+tienenMismoColor :: Carta -> Carta -> Bool
+tienenMismoColor unaCarta otraCarta = color unaCarta == color otraCarta
+
+numero :: Carta -> Number
+numero (unNumero, unColor) = unNumero
+
+tienenMismoNumero :: Carta -> Carta -> Bool
+tienenMismoNumero unaCarta otraCarta = numero unaCarta == numero otraCarta
+
+sePuedeJugar :: Carta -> Carta -> Bool
+sePuedeJugar unaCarta otraCarta = tienenMismoColor unaCarta otraCarta || tienenMismoNumero unaCarta otraCarta
+
 
 ---------------------
 ------ Parte 1 ------
