@@ -14,6 +14,8 @@ correrTests = runHspec $ do
         multiplicar 3 0 `shouldBe` 0
       it "Un numero N multiplicado por un numero M es el resultado de sumar M veces N" $ do
         multiplicar 3 6 `shouldBe` 18
+      it "Un numero N multiplicado por un numero negativo es el resultado de restar M veces N a 0" $ do
+        multiplicar 3 (-6) `shouldBe` -18
   describe "Listas" $ do
     describe "Primero" $ do
       it "Si la lista tiene elementos, me devuelve el primero" $ do
