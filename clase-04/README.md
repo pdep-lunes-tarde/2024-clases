@@ -6,6 +6,8 @@
 
 - Slides: https://docs.google.com/presentation/d/17tGw1dAyxrD81yyf3VcL3XrOQwszmkLE0kznT55eTks/edit?usp=drive_link
 - Código: Acá!
+- Página para ver paso por paso la evaluación de un programa en haskell:
+https://pbv.github.io/haskelite/site/index.html
 
 ## Para la clase que viene
 
