@@ -2,6 +2,10 @@ module Library where
 import PdePreludat
 
 -- Recursividad
+-- https://pbv.github.io/haskelite/site/index.html
+
+-- multiplicar 2 por 3 deberia ser equivalente a 2 + 2 + 2, o sea 6
+multiplicar = implementame
 
 -- Listas
 
