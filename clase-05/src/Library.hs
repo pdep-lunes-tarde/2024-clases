@@ -25,5 +25,26 @@ otroPikachu = Pokemon Electrico 2500
 charmander :: Pokemon
 charmander = Pokemon Fuego 200
 
+charizard :: Pokemon
+charizard = Pokemon Fuego 5000
+
 squirtle :: Pokemon
 squirtle = Pokemon Agua 1000
+
+esDeTipoElectrico :: Pokemon -> Bool
+esDeTipoElectrico pokemon = esDeTipo pokemon Electrico
+
+esDeTipoAgua :: Pokemon -> Bool
+esDeTipoAgua pokemon = esDeTipo pokemon Agua
+
+esDeTipoFuego :: Pokemon -> Bool
+esDeTipoFuego pokemon = esDeTipo pokemon Fuego
+
+esDeTipo :: Pokemon -> Tipo -> Bool
+esDeTipo pokemon unTipo = tipo pokemon == unTipo
+
+esFuerte :: Pokemon -> Bool
+esFuerte pokemon = experiencia pokemon >= 1000
+
+esRaro :: Pokemon -> Bool
+esRaro pokemon = esDeTipoFuego pokemon && esFuerte pokemon
