@@ -68,3 +68,12 @@ losDeTipo unTipo pokemones =
 -- esDeTipo
 esDeTipo :: Tipo -> Pokemon -> Bool
 esDeTipo unTipo pokemon = tipo pokemon == unTipo
+
+entrenar :: Number -> Pokemon -> Pokemon
+entrenar minutos pokemon =
+    aumentarExperiencia (minutos * 2) pokemon
+
+aumentarExperiencia :: Number -> Pokemon -> Pokemon
+aumentarExperiencia cantidad (Pokemon unTipo experiencia) =
+    Pokemon unTipo (experiencia + cantidad)
+
