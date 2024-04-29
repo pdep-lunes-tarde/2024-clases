@@ -1,3 +1,9 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use map" #-}
+{-# HLINT ignore "Use foldl" #-}
+{-# HLINT ignore "Eta reduce" #-}
+{-# HLINT ignore "Use sum" #-}
+{-# HLINT ignore "Use concat" #-}
 module Library where
 import PdePreludat
 
@@ -77,3 +83,60 @@ aumentarExperiencia :: Number -> Pokemon -> Pokemon
 aumentarExperiencia cantidad (Pokemon unTipo experiencia) =
     Pokemon unTipo (experiencia + cantidad)
 
+entrenarEquipo :: Number -> Entrenador -> Entrenador
+entrenarEquipo minutos (Entrenador cantidadPokebolas pokemons) =
+    Entrenador cantidadPokebolas
+               (entrenarVarios minutos pokemons)
+
+-- map
+transformarVarios :: (a -> b) -> [a] -> [b]
+transformarVarios f [] = []
+transformarVarios f (x:xs) = f x : transformarVarios f xs
+
+entrenarVarios :: Number -> [Pokemon] -> [Pokemon]
+entrenarVarios minutos pokemons =
+    map (entrenar minutos) pokemons
+
+entrenarVarios minutos [] = []
+entrenarVarios minutos (pokemon : pokemons) =
+    entrenar minutos pokemon : entrenarVarios minutos pokemons
+
+puedeSerLiderDeGimnasio :: Entrenador -> Bool
+puedeSerLiderDeGimnasio entrenador =
+    tieneAlgunPokemon entrenador &&
+    any esFuerte (pokemons entrenador) &&
+    all (esDelMismoTipoQue (primerPokemon entrenador))
+        (pokemons entrenador)
+
+esDelMismoTipoQue :: Pokemon -> Pokemon -> Bool
+esDelMismoTipoQue unPokemon otroPokemon =
+    tipo unPokemon == tipo otroPokemon
+
+tieneAlgunPokemon :: Entrenador -> Bool
+tieneAlgunPokemon entrenador =
+    not (null (pokemons entrenador))
+
+primerPokemon :: Entrenador -> Pokemon
+primerPokemon entrenador = head (pokemons entrenador)
+
+enfrentarPokemon :: Pokemon -> Entrenador -> Entrenador
+enfrentarPokemon pokemon (Entrenador 0 pokemons) =
+    Entrenador 0 pokemons
+enfrentarPokemon pokemon (Entrenador cantidadPokebolas pokemons) =
+    Entrenador (cantidadPokebolas - 1) (pokemon : pokemons)
+
+enfrentarHorda :: [Pokemon] -> Entrenador -> Entrenador
+enfrentarHorda [] entrenador = entrenador
+enfrentarHorda (pokemon:pokemons) entrenador =
+    enfrentarHorda pokemons (enfrentarPokemon pokemon entrenador)
+
+enfrentarHorda' :: [Pokemon] -> Entrenador -> Entrenador
+enfrentarHorda' pokemons entrenador = foldr enfrentarPokemon entrenador pokemons
+
+sumatoria :: [Number] -> Number
+sumatoria numeros = foldr (+) 0 numeros
+
+concatenarTodos :: [String] -> String
+concatenarTodos strings = foldr1 (++) strings
+
+-- sumatoria [1,2,3]
