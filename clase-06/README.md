@@ -7,7 +7,7 @@
 
 ## Para la clase que viene
 
-- Hacer el TP-6: 
+- Hacer el TP-6: https://classroom.github.com/a/iXxi1NcZ
 
 - [Opcional] Desafío del café con leche:
 https://classroom.github.com/a/NRhBj5Na
