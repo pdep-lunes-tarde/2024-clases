@@ -10,7 +10,8 @@
 - Hacer el TP-6: https://classroom.github.com/a/iXxi1NcZ
 
 - [Opcional] Desafío del café con leche:
-
+https://classroom.github.com/a/F3kO3WJa
+https://classroom.github.com/a/Id0jvojC
 
 ## ¿Qué mas puedo leer, ver o practicar?
 
