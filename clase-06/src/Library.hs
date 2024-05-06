@@ -43,6 +43,8 @@ cajasDelSuper = [caja1, caja2, caja3, caja4, caja5]
 
 -- primerLetraDeCajeroConMasDinero = implementame
 
+maximoSegun funcion lista = foldl1 (\a b -> mayorSegun funcion a b) lista
+
 mayorSegun :: Ord b => (a->b) -> a -> a -> a
 mayorSegun funcion valor1 valor2
     | funcion valor1 > funcion valor2 = valor1  
