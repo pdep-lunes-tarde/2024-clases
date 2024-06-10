@@ -4,6 +4,11 @@
 % Caro programa en Haskell y Scala
 % Tito no programa en ningún lenguaje
 
+persona(nahuel).
+persona(juan).
+persona(caro).
+persona(tito).
+
 programaEn(nahuel, javascript).
 programaEn(juan, haskell).
 programaEn(juan, ruby).
@@ -24,14 +29,29 @@ sonColegas(UnaPersona, OtraPersona):-
 
 % Por ejemplo, nahue puede aprender scala de caro porque nahue no programa en scala y caro sí.
 
+puedeAprenderDe(Aprendiz, Lenguaje, Maestro):-
+    programaEn(Maestro, Lenguaje),
+    persona(Aprendiz),
+    not(programaEn(Aprendiz, Lenguaje)).
+
 :-begin_tests(intro_logico).
 
-% test(una_persona_puede_aprender_un_lenguaje_de_otra_si_desconoce_un_lenguaje_en_el_que_la_otra_programa, nondet):-
-%     puedeAprenderDe(nahuel, scala, caro).
+test("Una persona puede aprender un lenguaje de otra si desconoce un lenguaje en el que la otra programa", nondet):-
+    puedeAprenderDe(nahuel, scala, caro).
 
-% test(una_persona_no_puede_aprender_un_lenguaje_de_otra_si_ya_conoce_el_lenguaje):-
-%     not(puedeAprenderDe(caro, haskell, juan)).
+    test("Una persona no puede aprender un lenguaje si ya lo conoce"):-
+        not(puedeAprenderDe(caro, haskell, juan)).
 
-% test(una_persona_no_puede_aprender_un_lenguaje_de_otra_si_la_otra_persona_no_conoce_el_lenguaje):-
-%     not(puedeAprenderDe(nahuel, scala, juan)).
+    test("Una persona no puede aprender un lenguaje de otra si la otra persona no conoce el lenguaje"):-
+     not(puedeAprenderDe(nahuel, scala, juan)).
+
+    test("Una persona no puede aprender un lenguaje de si misma"):-
+    not(puedeAprenderDe(juan, haskell, juan)).
+
 :-end_tests(intro_logico).
+% 
+
+% 
+
+% 
+
