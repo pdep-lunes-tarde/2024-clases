@@ -10,10 +10,15 @@ programaEn(juan, ruby).
 programaEn(caro, haskell).
 programaEn(caro, scala).
 
-lenguaje(javascript).
-lenguaje(haskell).
-lenguaje(ruby).
-lenguaje(scala).
+% Sabemos que dos personas son colegas si programan en un mismo lenguaje.
+% Queremos saber:
+% 1. si Juan y Caro son colegas,
+% 2. quiénes son colegas
+
+sonColegas(UnaPersona, OtraPersona):-
+    programaEn(UnaPersona, Lenguaje),
+    programaEn(OtraPersona, Lenguaje),
+    UnaPersona \= OtraPersona.
 
 % Queremos implementar si una persona puede aprender un lenguaje de otra. Esto se cumple cuando la primera no programa en ese lenguaje y la segunda sí.
 
