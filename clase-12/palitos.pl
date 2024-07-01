@@ -32,6 +32,7 @@ nadieLoTiene(Animal):-
     animal(Animal, _, _),
     not(tiene(_, Animal, _)).
 
+
 animalDificil(Animal):- 
     nadieLoTiene(Animal).
 % Solo 1 persona tiene 1 de ese animal
@@ -59,6 +60,20 @@ leGusta(feche, lechuza).
 % animalDificil/1: si nadie lo tiene, o bien si una sola persona tiene uno solo.
 
 % leGusta/2
+
+% estaFeliz(Persona):-
+%     tiene(Persona, _, _),
+%     not(
+%         (
+%             tiene(Persona, Animal, _),
+%             not(leGusta(Persona, Animal))
+%         )
+%     ).
+estaFeliz(Persona):-
+    tiene(Persona, _, _),
+    forall(tiene(Persona, Animal, _),
+            leGusta(Persona, Animal)).
+
 
 % estaFeliz/1: si le gustan todos los animales que tiene.
 
