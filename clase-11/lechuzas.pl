@@ -2,11 +2,11 @@
 
 % lechuza(Lechuza, Sospechosidad, Nobleza)
 lechuza(duo, 10, 2).
-
 lechuza(prolog, 10, 51).
-
 lechuza(noctowl, 20, 42).
 lechuza(coo, 80, 55).
+
+
 
 % Necesitamos saber:
 % ¿Qué tan violenta es una lechuza?

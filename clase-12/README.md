@@ -8,7 +8,7 @@
 
 ## ¿Qué hay para la clase que viene?
 
-TP-3: completar
+TP-3: https://classroom.github.com/a/IxJPVcd8
 
 ## ¿Qué más puedo leer, ver o practicar?
 
