@@ -4,22 +4,66 @@
 % Feche es aprendiz de mecánico y su herramienta es una llave inglesa.
 % Aye es oficial alquimista y su herramienta es una piedra filosofal.
 
-% Queremos saber quienes son camaradas:
-% son aquellas personas que
-% trabajan en el mismo área
+%trabajador(Nombre, Profesion, Herramienta).
+trabajador(migue, profesion(cocina, maestro), ollaEssen).
+trabajador(carla, profesion(alquimia, maestro), mechero).
+trabajador(feche, profesion(mecanica, aprendiz), llaveInglesa).
+trabajador(aye, profesion(alquimia, oficial), piedraFilosofal).
+
+camaradas(UnaPersona, OtraPersona):-
+    trabajador(UnaPersona, Profesion, _),
+    trabajador(OtraPersona, OtraProfesion, _),
+    sonDelMismoArea(Profesion, OtraProfesion),
+    UnaPersona \= OtraPersona.
+
+sonDelMismoArea(profesion(Area, _), profesion(Area, _)).
+
+puedeEntrenar(Tutor, Alumno):-
+    camaradas(Tutor, Alumno),
+    tieneMasExperiencia(Tutor, Alumno).
+
+tieneMasExperiencia(AlguienConMasExperiencia, AlguienConMenos):-
+    trabajador(AlguienConMasExperiencia, profesion(_, ExperienciaMayor), _),
+    trabajador(AlguienConMenos, profesion(_, ExperienciaMenor), _),
+    esMayorRango(ExperienciaMayor, ExperienciaMenor).
+
+inmediatamenteMayor(oficial, aprendiz).
+inmediatamenteMayor(experto, oficial).
+inmediatamenteMayor(maestro, experto).
+
+esMayorRango(RangoMayor, RangoMenor):-
+    inmediatamenteMayor(RangoMayor, RangoMenor).
+esMayorRango(RangoMayor, RangoMenor):-
+    inmediatamenteMayor(RangoMayor, RangoIntermedio),
+    esMayorRango(RangoIntermedio, RangoMenor).
 
 
-
-% Queremos saber quienes pueden entrenar a quienes:
-% deben ser camaradas y quién entrena tiene
-% que tener más experiencia
-
-% aprendiz < oficial < experto < maestro
-
-% esMayorExperiencia(MayorRango, MenorRango).
-
+% esMayorRango(maestro, oficial).
+% esMayorRango(maestro, aprendiz).
+% esMayorRango(oficial, aprendiz).
+% esMayorRango(maestro, experto).
+% esMayorRango(experto, oficial).
+% esMayorRango(experto, aprendiz).
 
 % Tareas, ¿Quién puede hacer cada una?
+
+puedeHacer(Trabajador, cocinarMilanesas):-
+    trabajador(Trabajador, profesion(cocina, _), _).
+
+puedeHacer(Trabajador, recalentarComida):-
+    trabajador(Trabajador, profesion(cocina, _), _).
+puedeHacer(Trabajador, recalentarComida):-
+    trabajador(Trabajador, _, mechero).
+
+puedeHacer(Trabajador, producirMedicina(Gramos)):-
+    trabajador(Trabajador, profesion(alquimia, Rango), _),
+    not(esMayorRango(Rango, oficial)),
+    between(1, 100, Gramos).
+puedeHacer(Trabajador, producirMedicina(_)):-
+    trabajador(Trabajador, profesion(alquimia, Rango), _),
+    esMayorRango(Rango, oficial).
+
+
 
 % reparar un aparato: para cada aparato sabemos con qué herramienta se puede arreglar. Y solo puede ser arreglado por alguien que trabaje en mecánica y tenga esa herramienta.
 
