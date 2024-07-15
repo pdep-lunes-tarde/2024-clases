@@ -63,7 +63,16 @@ puedeHacer(Trabajador, producirMedicina(_)):-
     trabajador(Trabajador, profesion(alquimia, Rango), _),
     esMayorRango(Rango, oficial).
 
+puedeHacer(Trabajador, repararAparato(Herramienta)):-
+    trabajador(Trabajador, profesion(mecanica, _), Herramienta).
 
+puedeHacer(migue, repararAparato(Herramienta)):-
+    trabajador(_, _, Herramienta).
+
+puedeHacer(Trabajador, crearObraMaestra(Area)):-
+    trabajador(Trabajador, profesion(Area, maestro), _).
+puedeHacer(Trabajador, crearObraMaestra(alquimia)):-
+    trabajador(Trabajador, _, piedraFilosofal).
 
 % reparar un aparato: para cada aparato sabemos con qué herramienta se puede arreglar. Y solo puede ser arreglado por alguien que trabaje en mecánica y tenga esa herramienta.
 
@@ -89,13 +98,30 @@ puedeHacer(Trabajador, producirMedicina(_)):-
 
 % Una persona puede cubrir a otra en cierta tarea si ambas pueden hacerla.
 
+puedeCubrir(QuienCubre, Cubierto, Tarea):-
+    puedeHacer(QuienCubre, Tarea),
+    puedeHacer(Cubierto, Tarea),
+    QuienCubre \= Cubierto.
 
 % ¿es irremplazable?
 
 % Una persona es irremplazable para una tarea si puede hacerla y nadie puede cubrirla para la misma.
 
+irremplazable(Persona, Tarea):-
+    puedeHacer(Persona, Tarea),
+    % forall(
+    %     trabajador(Trabajador, _, _),
+    %     not(puedeCubrir(Trabajador, Persona, Tarea))
+    % ). <- esta consulta es lo mismo que:
+    not(puedeCubrir(_, Persona, Tarea)).
 
 % comodín
 
 % Decimos que una persona es un comodín si puede realizar todas las tareas conocidas.
 
+comodin(Persona):-
+    trabajador(Persona, _, _),
+    forall(
+        puedeHacer(_, Tarea),
+        puedeHacer(Persona, Tarea)
+    ).
