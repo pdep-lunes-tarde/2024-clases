@@ -1,4 +1,4 @@
-# Clase 15 - Listas y findall
+# Listas y findall
 
 ## Material de la clase
 
