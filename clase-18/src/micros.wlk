@@ -27,8 +27,6 @@ class Micro {
 	}
 }
 
-class Persona {}
-
 class PersonaApurada {
 	method seSubiria(micro) {
 		return true
