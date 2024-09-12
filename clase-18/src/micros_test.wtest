@@ -1,83 +1,178 @@
 import micros.*
+import pasajeros.*
 
-test "Un apurado siempre se va a poder subir a un micro con espacio" {
-	const microConEspacio = new Micro(
-		capacidadSentados=10,
-		capacidadParados=10,
-		volumen=200)
-	const unApurado = new PersonaApurada()
-
-	assert.that(
-		microConEspacio.puedeSubirse(unApurado)
-	)
+object fabricaDeMicros {
+	method unMicroLleno() {
+		const microLleno = self.unMicroConLugar()
+		microLleno.seSubieronPersonas(microLleno.capacidadTotal())
+		return microLleno
+	}
+	method unMicroConLugar() {
+		return new Micro(
+			capacidadSentados = 2,
+			capacidadParados = 2,
+			volumenEnM3 = 150
+		)
+	}
+	method unMicroGrande() {
+		return new Micro(
+			capacidadSentados = 2,
+			capacidadParados = 2,
+			volumenEnM3 = 200
+		)
+	}
 }
 
-test "Nadie puede subirse a un micro lleno" {
-	const microLleno = new Micro(
-		capacidadSentados=10,
-		capacidadParados=10,
-		cantidadDePasajeros=20,
-		volumen=200
-	)
-	const unaPersona = new PersonaApurada()
+describe "micros" {
+	test "hay lugar en un micro si todavía no se subió nadie" {
+		const micro = fabricaDeMicros.unMicroConLugar()
+		assert.that(micro.hayLugar())
+	}
 
-	assert.notThat(
-		microLleno.puedeSubirse(unaPersona)
-	)
+	test "no hay lugar en un micro si se llenó" {
+		const micro = fabricaDeMicros.unMicroLleno()
+		micro.seSubieronPersonas(3)
+		assert.notThat(micro.hayLugar())
+	}
+
+	test "hay lugar en un micro si le queda al menos un lugar" {
+		const micro = new Micro(
+			capacidadSentados = 1,
+			capacidadParados = 2,
+			volumenEnM3 = 100
+		)
+		micro.seSubieronPersonas(2)
+
+		assert.that(micro.hayLugar())
+	}
+
 }
 
-test "Un claustrofobico no se sube a un micro si tiene menos de 120m3" {
-	const microChico = new Micro(
-		capacidadSentados=10,
-		capacidadParados=10,
-		volumen=100
-	)
-	const unClaustrofobico = new PersonaClaustrofobica()
+describe "pasajeros" {	
+	test "un apurado se puede subir siempre que haya lugar a un micro" {
+		const pasajero = new Pasajero(
+			personalidad = apurado
+		)
+		const micro = fabricaDeMicros.unMicroConLugar()
+		
+		assert.that(pasajero.sePuedeSubir(micro))
+	}
+	
+	test "un apurado no se puede subir a un micro lleno" {
+		const pasajero = new Pasajero(
+			personalidad = apurado
+		)
+		const microLleno = fabricaDeMicros.unMicroLleno()
+		
+		assert.notThat(
+			pasajero.sePuedeSubir(microLleno)
+		)
+	}
 
-	assert.notThat(
-		microChico.puedeSubirse(unClaustrofobico)
-	)
+	test "un claustrofobico se sube si el micro tiene mas de 120m3 y tiene lugar" {
+		const  microGrande = fabricaDeMicros.unMicroGrande()
+		const pasajero = new Pasajero(
+			personalidad = claustrofobico
+		)
+		
+		assert.that(pasajero.sePuedeSubir(microGrande))
+	}
+	
+	test "un claustrofobico NO se sube si el micro tiene menos de 120m3" {
+		const microGrande = new Micro(
+			volumenEnM3 = 100,
+			capacidadSentados = 2,
+			capacidadParados = 2)
+		const pasajero = new Pasajero(
+			personalidad = claustrofobico
+		)
+		
+		assert.notThat(pasajero.sePuedeSubir(microGrande))
+	}
+	
+	test "un claustrofobico NO se sube si el micro tiene exactamente 120m3" {
+		const microGrande = new Micro(
+			volumenEnM3 = 120,
+			capacidadSentados = 2,
+			capacidadParados = 2)
+		const pasajero = new Pasajero(
+			personalidad = claustrofobico
+		)
+		
+		assert.notThat(pasajero.sePuedeSubir(microGrande))
+	}
+	
+	test "un fiaca se sube si hay lugar para ir sentado" {
+		const micro = new Micro(
+			volumenEnM3 = 100,
+			capacidadSentados = 2,
+			capacidadParados = 2
+		)
+		const pasajero = new Pasajero(
+			personalidad = fiaca
+		)
+		
+		assert.that(pasajero.sePuedeSubir(micro))
+	}
+	
+	test "un fiaca NO se sube si NO hay lugar para ir sentado" {
+		const micro = new Micro(
+			volumenEnM3 = 100,
+			capacidadSentados = 2,
+			capacidadParados = 2
+		)
+		micro.seSubieronPersonas(2)
+		const pasajero = new Pasajero(
+			personalidad = fiaca
+		)
+		
+		
+		assert.notThat(pasajero.sePuedeSubir(micro))
+	}
+	
+	
+	test "un obsecuente se sube a un micro si su jefe se sube al micro" {
+		const micro = fabricaDeMicros.unMicroConLugar()
+		const pasajero = new Pasajero(
+			personalidad = obsecuente,
+			jefe = new Pasajero(personalidad = apurado)
+		)
+
+		assert.that(pasajero.sePuedeSubir(micro))
+	}
+	
+	test "un obsecuente no se sube a un micro si su jefe no se sube al micro" {
+		const pasajero = new Pasajero(
+			personalidad = obsecuente,
+			jefe = new Pasajero(personalidad = fiaca)
+		)
+		const micro = new Micro(
+			volumenEnM3 = 100,
+			capacidadSentados = 2,
+			capacidadParados = 2
+		)
+		micro.seSubieronPersonas(2)
+
+
+		assert.notThat(pasajero.sePuedeSubir(micro))
+	}
+
+	test "un obsecuente sin jefe se sube a un micro" {
+		const pasajero = new Pasajero(
+			personalidad = obsecuente,
+			jefe = sinJefe
+		)
+		const micro = fabricaDeMicros.unMicroConLugar()
+
+
+		assert.that(pasajero.sePuedeSubir(micro))
+	}
 }
 
-test "Un claustrofobico NO se sube a un micro si tiene 120m3" {
-	const microChico = new Micro(
-		capacidadSentados=10,
-		capacidadParados=10,
-		volumen=120
-	)
-	const unClaustrofobico = new PersonaClaustrofobica()
 
-	assert.notThat(
-		microChico.puedeSubirse(unClaustrofobico)
-	)
-}
 
-test "Un claustrofobico se sube a un micro si tiene mas de 120m3" {
-	const microChico = new Micro(
-		capacidadSentados=10,
-		capacidadParados=10,
-		volumen=121
-	)
-	const unClaustrofobico = new PersonaClaustrofobica()
 
-	assert.that(
-		microChico.puedeSubirse(unClaustrofobico)
-	)
-}
 
-test "al subirse una persona a un micro, disminuye el espacio libre en 1" {
-	var micro = new Micro(capacidadSentados=5, capacidadParados=5, volumen=100)
-	var persona = new PersonaApurada()
 
-	micro.seSube(persona)
 
-	assert.equals(9, micro.espacioDisponible())
-}
 
-test "si se trata de subir una persona que no puede subir, falla" {
-	var micro = new Micro(capacidadSentados=5, capacidadParados=5, volumen=100)
-	var persona = new PersonaClaustrofobica()
-
-	assert.throwsException { micro.seSube(persona) }
-	assert.equals(10, micro.espacioDisponible())
-}

@@ -7,7 +7,7 @@
 ## ¿Que hay para la clase que viene?
 
 - Hacer el TP-2: https://classroom.github.com/a/UHrGXRxI
-- Arrancar el TP integrador.
+- Elegir tipo de TP integrador y llevar ideas.
 
 ## ¿Qué mas puedo leer, ver o practicar?
 
