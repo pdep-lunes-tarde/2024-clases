@@ -25,3 +25,21 @@ class Micro {
 	}
 }
 
+object pruebita {
+	method aplicar(bloque) {
+		return bloque.apply()
+	}
+}
+
+object sumar2y3 {
+	method apply() {
+		return 5
+	}
+}
+
+object esPar {
+	method apply(numero) {
+		return numero % 2 == 0
+	}
+}
+
