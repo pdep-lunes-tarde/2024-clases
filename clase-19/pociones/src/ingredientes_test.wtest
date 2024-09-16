@@ -1,6 +1,7 @@
 import ingredientes.*
 
 describe "ingredientes" {
+	const bigoteDeGato = new BigoteDeGato()
 	test "rareza de un bigote de gato es 1" {
 		assert.equals(1, bigoteDeGato.rareza())
 	}

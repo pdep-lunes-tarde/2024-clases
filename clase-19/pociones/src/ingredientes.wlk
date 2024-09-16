@@ -1,4 +1,4 @@
-object bigoteDeGato {
+class BigoteDeGato {
 	method rareza() {
 		return 1
 	}

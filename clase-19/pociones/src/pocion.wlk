@@ -25,9 +25,7 @@ class Pocion {
 		if(ingredientes.isEmpty()) {
 			return 0
 		} else {
-			const rarezaTotal =
-				ingredientes
-					.sum({ elemento => elemento.rareza() })
+			const rarezaTotal = ingredientes.sum({ elemento => elemento.rareza() })
 			return rarezaTotal / self.cantidadDeIngredientes()	
 		}
 	}

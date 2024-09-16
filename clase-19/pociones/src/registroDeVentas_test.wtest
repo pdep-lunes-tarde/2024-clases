@@ -1,0 +1,60 @@
+import registroDeVentas.*
+import pocion.*
+import ingredientes.*
+
+test "un alquimista que nunca vendio tiene 0 clientes" {
+    const unAlquimista = new Alquimista()
+
+    assert.equals(0, unAlquimista.cantidadDeClientes())
+}
+
+test "tras vender a un cliente nuevo, aumenta la cantidad de clientes de un alquimista en 1" {
+    const unAlquimista = new Alquimista()
+    const comprador = new Alquimista()
+
+    unAlquimista.vender(new Pocion(), comprador)
+
+    assert.equals(1, unAlquimista.cantidadDeClientes())
+}
+
+test "no debería aumentar la cantidad de clientes si el alquimista le vende a uno que ya había sido cliente suyo" {
+    const unAlquimista = new Alquimista()
+    const comprador = new Alquimista()
+
+    unAlquimista.vender(new Pocion(), comprador)
+    unAlquimista.vender(new Pocion(), comprador)
+
+    assert.equals(1, unAlquimista.cantidadDeClientes())
+}
+
+test "es un alquimista gourmet si todas las pociones que vendio tienen rareza mayor a 5" {
+    const unAlquimista = new Alquimista()
+    const comprador = new Alquimista()
+
+    unAlquimista.vender(new Pocion(ingredientes=[new Trebol(hojas=4)]), comprador)
+    unAlquimista.vender(new Pocion(ingredientes=[new Trebol(hojas=4)]), comprador)
+
+    assert.that(unAlquimista.esGourmet())
+}
+
+test "NO es un alquimista gourmet si vendio alguna pocion de rareza menor o igual a 5" {
+    const unAlquimista = new Alquimista()
+    const comprador = new Alquimista()
+
+    unAlquimista.vender(new Pocion(ingredientes=[new Trebol(hojas=4)]), comprador)
+    unAlquimista.vender(new Pocion(ingredientes=[new Trebol(hojas=3)]), comprador)
+
+    assert.notThat(unAlquimista.esGourmet())
+}
+
+test "el cliente favorito de un alquimista es aquel que le compro mas pociones" {
+    const unAlquimista = new Alquimista()
+    const clienteFavorito = new Alquimista()
+    const otroCliente = new Alquimista()
+
+    unAlquimista.vender(new Pocion(ingredientes=[new Trebol(hojas=4)]), clienteFavorito)
+    unAlquimista.vender(new Pocion(ingredientes=[new Trebol(hojas=3)]), clienteFavorito)
+    unAlquimista.vender(new Pocion(ingredientes=[new Trebol(hojas=3)]), otroCliente)
+
+    assert.equals(clienteFavorito, unAlquimista.clienteFavorito())
+}
