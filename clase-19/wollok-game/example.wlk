@@ -47,7 +47,7 @@ class SnakeSegment {
   method image() {
     return "viborita_segmento.png"
   }
-  method chocasteConSnake() {
+  method chocasteConSnake(viborita) {
 
   }
 }

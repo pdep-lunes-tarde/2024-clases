@@ -3,7 +3,7 @@ import pocion.*
 
 describe "Pociones" {
 	method bigoteDeGato() {
-		return bigoteDeGato
+		return new BigoteDeGato()
 	}
 	method trebolDe4Hojas() {
 		return new Trebol(hojas=4)
@@ -87,11 +87,11 @@ describe "Pociones" {
 		const pocion = new Pocion()
 		const pocionIngrediente = new Pocion()
 		pocionIngrediente.agregarIngredientes(
-			[bigoteDeGato, new HiedraVenenosa(concentracionDeVeneno=7)]
+			[new BigoteDeGato(), new HiedraVenenosa(concentracionDeVeneno=7)]
 		)
 		
 		pocion.agregarIngrediente(pocionIngrediente)
-		pocion.agregarIngrediente(bigoteDeGato)
+		pocion.agregarIngrediente(new BigoteDeGato())
 		
 		assert.equals(2.5, pocion.rareza())
 	}
