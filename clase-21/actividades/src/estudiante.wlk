@@ -34,7 +34,9 @@ class Estudiante {
 
 	method hacerRutinaDeEstudio() {
 		rutinaDeEstudio.forEach{ actividad =>
-			if (actividad.laPuedeHacer(self)) actividad.hacerse(self)
+			if (actividad.laPuedeHacer(self)){
+				actividad.hacerse(self)
+			}
 		}
 	}
 
